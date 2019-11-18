@@ -25,7 +25,7 @@ testReqs()
 
 @app.route("/")
 def hello():
-	return "Hello, World!"
+	return "Hello, Worldo!"
 	
 @app.route("/hello")
 def hello2():
