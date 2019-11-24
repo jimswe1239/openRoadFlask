@@ -12,32 +12,30 @@ key = os.getenv("apiKey")
 if __name__ == '__main__':
     app.run()
 
-def testReqs():
-	print("i am here 0")
-	print(key)
+def testReqs(): #never invoked
+	print("Running function restReqs")
 	origin = "Boston+MA"
 	destination = "Shrewsbury+MA"
 	#make the call to google maps
-	
 	uri = "https://maps.googleapis.com/maps/api/directions/json?"
 	ret = requests.get(uri+"origin="+origin+"&destination="+destination+"&key="+key)
 	print(ret.content)
-	#return ret
-#testReqs()
-print(key)
+
 
 @app.route("/")
 def hello():
+	print("Running function hello")
 	return "Hello, Worldo!"
 	
 @app.route("/hello")
 def hello2():
+	print("Running function hello2")
 	print("helloing")
 	return jsonify({'hello':'world'})
 	
 @app.route("/directions")
 def directions():
-	print("i am here 1")
+	print("Running function directions")
 	
 	origin = request.args.get('start')
 	destination = request.args.get('end')
@@ -50,7 +48,7 @@ def directions():
 	
 @app.route("/directionsTest")
 def directionsTest():
-	print("i am here 2")
+	print("Running function directionsTest")
 	
 	origin = "Boston+MA"
 	destination = "Shrewsbury+MA"
