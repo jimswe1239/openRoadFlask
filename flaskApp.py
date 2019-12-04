@@ -72,18 +72,18 @@ def newJourney():
 	start = request.args.get('start') #geolocation OR textual address representation of the point A
 	end = request.args.get('end') #geolocation OR textual address representation of the point M
 	type = request.args.get('type') #string representing journey type, either aej, rtj, or owj
-	time = int(request.args.get('time')) #time in seconds of how long the user wants to be travelling (on the road! not at waypoints)
-	budget = int(request.args.get('budget')) #USD value of how much money the user plans to spend
+	#time = int(request.args.get('time')) #time in seconds of how long the user wants to be travelling (on the road! not at waypoints)
+	#budget = int(request.args.get('budget')) #USD value of how much money the user plans to spend
 	name = request.args.get('name') #name of new Journey
 	
-	averageDriveTime = mapApiForAverageDriveTime(start,end)
+	#averageDriveTime = mapApiForAverageDriveTime(start,end)
 	
-	if type != "owj":
-		averageDriveTime = averageDriveTime + mapApiForAverageDriveTime(end,start)
+	#if type != "owj":
+	#	averageDriveTime = averageDriveTime + mapApiForAverageDriveTime(end,start)
 	
-	timeRemaining = time - averageDriveTime
+	#timeUsed = time - averageDriveTime
 	
-	budgetRemaining = budget
+	#budgetUsed = budget#to do!!
 	
 	
 	newJourney = {}
@@ -97,10 +97,10 @@ def newJourney():
 	newJourney["name"] = name
 	newJourney["start"] = start
 	newJourney["end"] = end
-	newJourney["budget"] = budget
-	newJourney["budgetRemaining"] = budgetRemaining
-	newJourney["time"] = time
-	newJourney["timeRemaining"] = timeRemaining
+	#newJourney["budget"] = budget
+	#newJourney["budgetUsed"] = budgetUsed
+	#newJourney["time"] = time
+	#newJourney["timeTaken"] = timeTaken
 	#newJourney["directions"] = directions
 	newJourney["waypoints"] = waypoints
 	return newJourney
@@ -137,6 +137,14 @@ def getWaypoints():
 	newWaypoints["waypoints"] = waypoints
 	
 	return newWaypoints
+	
+@app.route("/driveTime")
+def driveTime():
+	print("Getting Drive Time...")
+	start = request.args.get('start')
+	end = request.args.get('end')
+	return mapApiForAverageDriveTime(start,end)
+	
 	
 	
 #HELPER FUNCTIONS
