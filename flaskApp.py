@@ -116,7 +116,7 @@ def getWaypoints():
 	numOfStops = int(request.args.get('num'))
 	
 	numOfInterests = len(interests)
-	if spacing == None or spacing.equals("random"):
+	if spacing == None or spacing == "random":
 		midpoints = directionsMidpointsFinder(origin,destination,numOfStops)
 	else: #even spacing is the default parameter
 		midpoints = midpointsFinder(origin,destination,numOfStops)
