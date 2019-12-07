@@ -95,11 +95,11 @@ def newJourney():
 	
 	
 	newJourney["name"] = name
-	newJourney["start"] = start
-	newJourney["end"] = end
+	#newJourney["start"] = start
+	#newJourney["end"] = end
 	#newJourney["budget"] = budget
 	#newJourney["budgetUsed"] = budgetUsed
-	#newJourney["time"] = time
+	newJourney["time"] = time
 	#newJourney["timeTaken"] = timeTaken
 	#newJourney["directions"] = directions
 	newJourney["waypoints"] = waypoints
@@ -111,15 +111,15 @@ def getWaypoints():
 	origin = request.args.get('start')
 	destination = request.args.get('end')
 	interests = (request.args.get('interests'))[1:-1].split(",") #list of interest tags
-	spacing = request.args.get('spacing') #either 'even' or 'random' optional parameter
+	#spacing = request.args.get('spacing') #either 'even' or 'random' optional parameter
 	#budgetRemaining = requests.args.get('budgetRemaining') #budget in usd
 	numOfStops = int(request.args.get('num'))
 	
 	numOfInterests = len(interests)
-	if spacing == None or spacing.equals("random"):
-		midpoints = directionsMidpointsFinder(origin,destination,numOfStops)
-	else: #even spacing is the default parameter
-		midpoints = midpointsFinder(origin,destination,numOfStops)
+	#if spacing == None or spacing == "random":
+	midpoints = directionsMidpointsFinder(origin,destination,numOfStops)
+	#else: #even spacing is the default parameter
+	#	midpoints = midpointsFinder(origin,destination,numOfStops)
 	
 	random.shuffle(interests)
 
@@ -131,7 +131,8 @@ def getWaypoints():
 	#[]#(ret.content).decode('utf-8').replace("\"","'")
 	waypoints = []
 	for x in range(len(midpoints)):
-		waypoints += [getWaypoint(midpoints[x],interests[x%numOfInterests])]
+		newWaypoint = getWaypoint(midpoints[x],interests[x%numOfInterests])
+		waypoints += [newWaypoint]
 	
 	newWaypoints = {}
 	newWaypoints["waypoints"] = waypoints
@@ -270,6 +271,21 @@ def directionsMidpointsFinder(start,end,num): #uses signed0's decoder function
 	
 	return midpoints
 	
+def getTime(interest):
+	return 1000
+	
+def getFormattedAddress(inputString):
+	uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
+	ret = requests.get(uri+"query="+inputString+"&key="+key)
+	#retContent = ((ret.content).decode('utf-8').replace("\"","'")) NOT USED
+	retContent = ret.json()
+	print("HERE IS THE FORMATTED ADDRESS: ")
+	print(retContent)
+	#print([retContent["results"][0]["geometry"]["location"]["lng"],retContent["results"][0]["geometry"]["location"]["lat"]])
+	print(retContent["results"][0]["formatted_address"])
+	return retContent["results"][0]["formatted_address"]
+	
+	
 def getWaypoint(coordinates,interest):
 	#make the call to google maps to return the nearest loction with that interest
 	coordinatesParam = (str(coordinates[1])+","+str(coordinates[0]))
@@ -282,20 +298,15 @@ def getWaypoint(coordinates,interest):
 	#print(retContent)
 	#print([retContent["results"][0]["geometry"]["location"]["lng"],retContent["results"][0]["geometry"]["location"]["lat"]])
 	print(retContent)
-	return retContent["results"][0]["name"]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
-	
+	ret = {} #build the waypoint json object
+	ret["name"] = retContent["results"][0]["name"]
+	ret["addr"] = getFormattedAddress(retContent["results"][0]["vicinity"])
+	ret["lat"] = retContent["results"][0]["geometry"]["location"]["lat"]
+	ret["lng"] = retContent["results"][0]["geometry"]["location"]["lng"]
+	ret["time"] = getTime(interest)
+	ret["interest"] = interest
+	print(ret)
+	return ret
+
+
