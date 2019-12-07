@@ -66,6 +66,17 @@ def directionsTest():
 	print(ret.content)
 	return ret.content
 	
+@app.route("/queryToWaypoint")
+def queryToWaypoint():
+	print("Creating A Waypoint from Query")
+	query = request.args.get('query') #geolocation OR textual address representation of the point A
+	#type = request.args.get('type') #string representing waypoint type
+	#time = int(request.args.get('time')) #time in seconds of how long the user wants to be travelling (on the road! not at waypoints)
+	#budget = int(request.args.get('budget')) #USD value of how much money the user plans to spend
+	#name = request.args.get('name') #name of new Journey
+
+	return getWaypointFromSearch(query,"custom")
+
 @app.route("/newJourney")
 def newJourney():
 	print("Creating New Journey")
@@ -89,22 +100,8 @@ def newJourney():
 	newJourney = {}
 	waypoints = []
 	
-	startWaypoint = {}
-	startWaypoint["name"] = start
-	startWaypoint["addr"] = getFormattedAddress(start)
-	lngLat = getLngLat(start)
-	startWaypoint["lat"] = lngLat[1]
-	startWaypoint["lng"] = lngLat[0]
-	startWaypoint["time"] = 0
-	startWaypoint["interest"] = "start"
-	endWaypoint = {}
-	endWaypoint["name"] = end
-	endWaypoint["addr"] = getFormattedAddress(end)
-	lngLat = getLngLat(end)
-	endWaypoint["lat"] = lngLat[1]
-	endWaypoint["lng"] = lngLat[0]
-	endWaypoint["time"] = 0
-	endWaypoint["interest"] = "end"
+	startWaypoint = getWaypointFromSearch(start,"start")
+	endWaypoint = getWaypointFromSearch(end,"end")
 	
 	waypoints = waypoints + [startWaypoint,endWaypoint]
 	if type != "owj":
@@ -287,6 +284,17 @@ def directionsMidpointsFinder(start,end,num): #uses signed0's decoder function
 	print("Midpoints = ", midpoints)
 	
 	return midpoints
+	
+def getWaypointFromSearch(query,type):
+	ret = {}
+	ret["name"] = query
+	ret["addr"] = getFormattedAddress(query)
+	lngLat = getLngLat(query)
+	ret["lat"] = lngLat[1]
+	ret["lng"] = lngLat[0]
+	ret["time"] = 0
+	ret["interest"] = type
+	return ret
 	
 def getTime(interest):
 	return 1000
