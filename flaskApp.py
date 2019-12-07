@@ -72,7 +72,7 @@ def newJourney():
 	start = request.args.get('start') #geolocation OR textual address representation of the point A
 	end = request.args.get('end') #geolocation OR textual address representation of the point M
 	type = request.args.get('type') #string representing journey type, either aej, rtj, or owj
-	#time = int(request.args.get('time')) #time in seconds of how long the user wants to be travelling (on the road! not at waypoints)
+	time = int(request.args.get('time')) #time in seconds of how long the user wants to be travelling (on the road! not at waypoints)
 	#budget = int(request.args.get('budget')) #USD value of how much money the user plans to spend
 	name = request.args.get('name') #name of new Journey
 	
