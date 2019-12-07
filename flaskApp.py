@@ -89,9 +89,26 @@ def newJourney():
 	newJourney = {}
 	waypoints = []
 	
-	waypoints = waypoints + [start,end]
+	startWaypoint = {}
+	startWaypoint["name"] = start
+	startWaypoint["addr"] = getFormattedAddress(start)
+	lngLat = getLngLat(start)
+	startWaypoint["lat"] = lngLat[1]
+	startWaypoint["lng"] = lngLat[0]
+	startWaypoint["time"] = 0
+	startWaypoint["interest"] = "start"
+	endWaypoint = {}
+	endWaypoint["name"] = end
+	endWaypoint["addr"] = getFormattedAddress(end)
+	lngLat = getLngLat(end)
+	endWaypoint["lat"] = lngLat[1]
+	endWaypoint["lng"] = lngLat[0]
+	endWaypoint["time"] = 0
+	endWaypoint["interest"] = "end"
+	
+	waypoints = waypoints + [startWaypoint,endWaypoint]
 	if type != "owj":
-		waypoint = waypoints + [start]
+		waypoint = waypoints + [startWaypoint]
 	
 	
 	newJourney["name"] = name
@@ -158,7 +175,7 @@ def mapApiForAverageDriveTime(start,end):
 	retContent = ret.json()
 	return retContent["rows"][0]["elements"][0]["duration"]["value"]
 	
-def getLatLong(point):
+def getLngLat(point):
 	#make the call to google maps to return the location or a point
 	uri = "https://maps.googleapis.com/maps/api/geocode/json?"
 	ret = requests.get(uri+"address="+point+"&key="+key)
@@ -176,8 +193,8 @@ def midpointsFinder(start,end,num): #TODO, use OVERVIEWPOLYLINE and decoder from
 	#this is to prevent accidental waste of all api keys!
 	num = min(num, 4)
 	
-	location1 = getLatLong(start)
-	location2 = getLatLong(end)
+	location1 = getLngLat(start)
+	location2 = getLngLat(end)
 
 	m = (location2[1] - location1[1])/(location2[0] - location1[0])
 	
@@ -211,8 +228,8 @@ def randpointsFinder(start,end,num): #can be used to find random points, with no
 	#this is to prevent accidental waste of all api keys!
 	num = min(num, 4)
 	
-	location1 = getLatLong(start)
-	location2 = getLatLong(end)
+	location1 = getLngLat(start)
+	location2 = getLngLat(end)
 
 	m = (location2[1] - location1[1])/(location2[0] - location1[0])
 	
