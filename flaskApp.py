@@ -158,7 +158,7 @@ def driveTime():
 	print("Getting Drive Time...")
 	start = request.args.get('start')
 	end = request.args.get('end')
-	return mapApiForAverageDriveTime(start,end)
+	return str(mapApiForAverageDriveTime(start,end))
 	
 	
 	
