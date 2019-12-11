@@ -303,11 +303,11 @@ def getTime(interest):
 	if "'coffee shop'" == interest:
 		return 60*20
 	else:
-		print("coffee !=",interest)
-	if "'gas'" == interest:
+		print("coffee shop !=",interest)
+	if "'gas station'" == interest:
 		return 15*60
 	else:
-		print("gas !=",interest)
+		print("gas station !=",interest)
 	if "'restaurant'" == interest:
 		return 90*60
 	else:
