@@ -299,6 +299,7 @@ def getWaypointFromSearch(query,type):
 	
 def getTime(interest):
 	print(interest)
+	interest = interest.lower()
 	if "coffee" == interest:
 		return 60*20
 	if "gas" == interest:
