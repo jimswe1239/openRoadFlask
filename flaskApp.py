@@ -298,17 +298,17 @@ def getWaypointFromSearch(query,type):
 	return ret
 	
 def getTime(interest):
-	if "coffee" in interest:
+	if "coffee" == interest:
 		return 60*20
-	if "gas" in interest:
+	if "gas" == interest:
 		return 15*60
-	if "restaurant" in interest:
+	if "restaurant" == interest:
 		return 90*60
-	if "hiking" in interest:
+	if "hiking" == interest:
 		return 3*60*60
-	if "shopping" in interest:
+	if "shopping" == interest:
 		return 2*60*60
-	if "museum" in interest:
+	if "museum" == interest:
 		return 60*2*60
 	return 30*60
 	
