@@ -105,7 +105,7 @@ def newJourney():
 	
 	waypoints = waypoints + [startWaypoint,endWaypoint]
 	if type != "owj":
-		waypoint = waypoints + [startWaypoint]
+		waypoints = waypoints + [startWaypoint]
 	
 	
 	newJourney["name"] = name
@@ -298,7 +298,19 @@ def getWaypointFromSearch(query,type):
 	return ret
 	
 def getTime(interest):
-	return 1000
+	if "coffee" in interest:
+		return 60*20
+	if "gas" in interest:
+		return 15*60
+	if "restaurant" in interest:
+		return 90*60
+	if "hiking" in interest:
+		return 3*60*60
+	if "shopping" in interest:
+		return 2*60*60
+	if "museum" in interest:
+		return 60*2*60
+	return 30*60
 	
 def getFormattedAddress(inputString):
 	uri = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
