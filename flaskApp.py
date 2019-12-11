@@ -302,16 +302,28 @@ def getTime(interest):
 	interest = interest.lower()
 	if "coffee" == interest:
 		return 60*20
+	else:
+		print("coffee !=",interest)
 	if "gas" == interest:
 		return 15*60
+	else:
+		print("gas !=",interest)
 	if "restaurant" == interest:
 		return 90*60
+	else:
+		print("restaurant !=",interest)
 	if "hiking" == interest:
 		return 3*60*60
+	else:
+		print("hiking !=",interest)
 	if "shopping" == interest:
 		return 2*60*60
+	else:
+		print("shopping !=",interest)
 	if "museum" == interest:
 		return 60*2*60
+	else:
+		print("museum !=",interest)
 	return 30*60
 	
 def getFormattedAddress(inputString):
